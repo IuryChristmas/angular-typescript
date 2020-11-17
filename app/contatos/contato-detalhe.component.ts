@@ -7,11 +7,12 @@ import { Contato } from './contato.model';
 @Component({
     moduleId: module.id,
     selector: 'contato-detalhe',
-    templateUrl: 'contato-detalhe.component.html'
+    templateUrl: 'contato-detalhe.component.html',
 })
 export class ContatoDetalheComponent implements OnInit {
 
     contato: Contato;
+    private isNew: boolean = true;
 
     constructor(
         private contatoService: ContatoService,
@@ -26,6 +27,8 @@ export class ContatoDetalheComponent implements OnInit {
             let id: number = +params['id'];
 
             if(id) {
+                this.isNew = false;
+
                 this.contatoService.getContato(id)
                     .then((contato: Contato) => {
                         this.contato = contato;
@@ -34,4 +37,29 @@ export class ContatoDetalheComponent implements OnInit {
 
         });
     }
+
+    getFormGroupClass(isValid: boolean, isPristine: boolean): any {
+        return {
+            'form-group': true,
+            'has-danger': !isValid && !isPristine,
+            'has-success': isValid && !isPristine
+        }
+    }
+
+    getFormControlClass(isValid: boolean, isPristine: boolean): any {
+        return {
+            'form-control': true,
+            'form-control-danger': !isValid && !isPristine,
+            'form-control-success': isValid && !isPristine
+        }
+    }
+
+    onSubmit(): void {
+        if (this.isNew) {
+            console.log('cadastrar contato');
+        } else {
+            console.log('altera contato existente');
+        }
+    }
+
 }
