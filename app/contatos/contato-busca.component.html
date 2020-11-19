@@ -6,11 +6,12 @@
 
             <div class="form-group">
                 <label for="search"></label>
-                <input type="search" class="form-control" placeholder="Digite sua busca">
+                <input type="search" class="form-control" placeholder="Digite sua busca"
+                    #searchBox (keyup)="search(searchBox.value)">
             </div>
 
             <ul class="list-group">
-                
+
             </ul>
 
         </div>
