@@ -11,7 +11,8 @@
             </div>
 
             <ul class="list-group">
-
+                <li class="list-group-item cursor-pointer" *ngFor="let c of contatos | async"
+                    (click)="verDetalhe(c)">{{ c.nome }}</li>
             </ul>
 
         </div>

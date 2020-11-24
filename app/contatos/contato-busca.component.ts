@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { Contato } from './contato.model';
 import { ContatoService } from './contato.service';
@@ -7,27 +8,37 @@ import { ContatoService } from './contato.service';
     moduleId: module.id,
     selector: 'contato-busca',
     templateUrl: 'contato-busca.component.html',
+    styles: [`
+        .cursor-pointer:hover {
+            cursor: pointer;
+        }
+    `]
 })
 export class ContatoBuscaComponent implements OnInit {
 
     contatos: Observable<Contato[]>;
     private termosDaBusca: Subject<string> = new Subject<string>();
 
-    constructor(private contatoService: ContatoService) { }
+    constructor(
+        private contatoService: ContatoService,
+        private router: Router
+        ) { }
 
     ngOnInit() {
-        this.termosDaBusca.debounceTime(300)
+        this.termosDaBusca.debounceTime(500)
+            .distinctUntilChanged()
             .subscribe(term => {
                 this.contatos =  term ? this.contatoService.search(term) : Observable.of<Contato[]>([]);
-
-                this.contatos.subscribe((contatos: Contato[]) => {
-                    console.log('retornou do servidor', contatos);
-                });
             });
     }
 
     search(termo: string): void {
         this.termosDaBusca.next(termo);
+    }
+
+    verDetalhe(contato: Contato): void {
+        let link = ['contato/save', contato.id];
+        this.router.navigate(link);
     }
 
 }
