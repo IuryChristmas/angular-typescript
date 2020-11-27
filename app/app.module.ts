@@ -9,12 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContatosModule } from './contatos/contatos.module';
 import { DialogService } from './dialog.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         AppRoutingModule,
         BrowserModule,
         ContatosModule,
+        FormsModule,
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
     ],
